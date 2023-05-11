@@ -7,22 +7,29 @@ import time
 parser = argparse.ArgumentParser(description="Busca resultados con Google Dorking")
 parser.add_argument("query", help="Query de búsqueda")
 parser.add_argument("--inurl", required=False, help="Parámetro de búsqueda en URL")
+parser.add_argument("--filetype", required=False,help="Parámetro de busqueda según la extensión de archivo proporcionada")
+parser.add_argument("--site", required=False,help="Parámetro de busqueda en una lista de todas las URL indexadas de un sitio web o dominio")
+parser.add_argument("--intext", required=False,help="Parámetro de busqueda que contienen ciertos caracteres o cadenas dentro de su texto")
+parser.add_argument("--intitle", required=False,help="Parámetro de busqueda que contienen ciertos caracteres o cadenas dentro de su texto")
+
+
+
 # Añadir más argumentos
 
 
 def banner():
 	print(
 	'''
- 	@@@@@@@@   @@@@@@      @@@@@@@    @@@@@@   @@@@@@@   @@@  @@@  @@@  @@@  @@@   @@@@@@@@  
-	@@@@@@@@@  @@@@@@@@     @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@  @@@  @@@  @@@@ @@@  @@@@@@@@@  
-	!@@        @@!  @@@     @@!  @@@  @@!  @@@  @@!  @@@  @@!  !@@  @@!  @@!@!@@@  !@@        
-	!@!        !@!  @!@     !@!  @!@  !@!  @!@  !@!  @!@  !@!  @!!  !@!  !@!!@!@!  !@!        
-	!@! @!@!@  @!@  !@!     @!@  !@!  @!@  !@!  @!@!!@!   @!@@!@!   !!@  @!@ !!@!  !@! @!@!@  
-	!!! !!@!!  !@!  !!!     !@!  !!!  !@!  !!!  !!@!@!    !!@!!!    !!!  !@!  !!!  !!! !!@!!  
-	:!!   !!:  !!:  !!!     !!:  !!!  !!:  !!!  !!: :!!   !!: :!!   !!:  !!:  !!!  :!!   !!:  
-	:!:   !::  :!:  !:!     :!:  !:!  :!:  !:!  :!:  !:!  :!:  !:!  :!:  :!:  !:!  :!:   !::  
- 	::: ::::  ::::: ::      :::: ::  ::::: ::  ::   :::   ::  :::   ::   ::   ::   ::: ::::  
- 	:: :: :    : :  :      :: :  :    : :  :    :   : :   :   :::  :    ::    :    :: :: : 
+ 	@@@@@@@@   @@@@@@      @@@@@@@    @@@@@@   @@@@@@@   @@@  @@@  @@@  @@@  @@@   @@@@@@@@
+	@@@@@@@@@  @@@@@@@@     @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@  @@@  @@@  @@@@ @@@  @@@@@@@@@
+	!@@        @@!  @@@     @@!  @@@  @@!  @@@  @@!  @@@  @@!  !@@  @@!  @@!@!@@@  !@@
+	!@!        !@!  @!@     !@!  @!@  !@!  @!@  !@!  @!@  !@!  @!!  !@!  !@!!@!@!  !@!
+	!@! @!@!@  @!@  !@!     @!@  !@!  @!@  !@!  @!@!!@!   @!@@!@!   !!@  @!@ !!@!  !@! @!@!@
+	!!! !!@!!  !@!  !!!     !@!  !!!  !@!  !!!  !!@!@!    !!@!!!    !!!  !@!  !!!  !!! !!@!!
+	:!!   !!:  !!:  !!!     !!:  !!!  !!:  !!!  !!: :!!   !!: :!!   !!:  !!:  !!!  :!!   !!:
+	:!:   !::  :!:  !:!     :!:  !:!  :!:  !:!  :!:  !:!  :!:  !:!  :!:  :!:  !:!  :!:   !::
+ 	::: ::::  ::::: ::      :::: ::  ::::: ::  ::   :::   ::  :::   ::   ::   ::   ::: ::::
+ 	:: :: :    : :  :      :: :  :    : :  :    :   : :   :   :::  :    ::    :    :: :: :
 
 	''')
 
