@@ -2,19 +2,29 @@ import argparse
 import requests
 from halo import Halo
 import time
+from googlesearch import search
 
 # Configuración de argparse
-parser = argparse.ArgumentParser(description="Busca resultados con Google Dorking")
+parser = argparse.ArgumentParser(description="Busqueda de resultados con Google Dorking")
 parser.add_argument("query", help="Query de búsqueda")
-parser.add_argument("--inurl", required=False, help="Parámetro de búsqueda en URL")
-parser.add_argument("--filetype", required=False,help="Parámetro de busqueda según la extensión de archivo proporcionada")
-parser.add_argument("--site", required=False,help="Parámetro de busqueda en una lista de todas las URL indexadas de un sitio web o dominio")
-parser.add_argument("--intext", required=False,help="Parámetro de busqueda que contienen ciertos caracteres o cadenas dentro de su texto")
-parser.add_argument("--intitle", required=False,help="Parámetro de busqueda que contienen ciertos caracteres o cadenas dentro de su texto")
+parser.add_argument("-i","--inurl", required=False, help="Parámetro de búsqueda en URL")
+parser.add_argument("-f","--filetype", required=True,help="Parámetro de busqueda según la extensión de archivo proporcionada")
+parser.add_argument("-s","--site", required=False,help="Parámetro de busqueda en una lista de todas las URL indexadas de un sitio web o dominio")
+parser.add_argument("-t","--intext", required=False,help="Parámetro de busqueda que contienen ciertos caracteres o cadenas dentro de su texto")
+parser.add_argument("-T","--intitle", required=False,help="Parámetro de busqueda que contienen ciertos caracteres o cadenas dentro de su texto")
+parser.add_argument("--banner", required=False,action='store_true',help="Parámetro para no mostrar el banner")
 
 
+args = parser.parse_args()
 
-# Añadir más argumentos
+search_params = {
+    'inurl': 'inurl:',
+    'filetype': 'filetype:',
+    'site': 'site:',
+    'intext': 'intext:',
+    'intitle': 'intitle:',
+}
+
 
 
 def banner():
@@ -33,14 +43,25 @@ def banner():
 
 	''')
 
+
+def build_query(args):
+    query = args.query
+    for arg_name, arg_value in vars(args).items():
+        if arg_value is not None and arg_name in search_params:
+            query += f' {search_params[arg_name]}{arg_value}'
+    return query
+
+
 # Función que realiza la búsqueda con Google Dorking y devuelve los resultados
 def search(query, param):
     # Concatenamos la query y el parámetro de búsqueda
-    url = f"https://www.google.com/search?q={query} {param}"
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
+    query = f"{query} {param}"
 
-    # Hacemos la solicitud HTTP a Google
-    response = requests.get(url, headers=headers)
+    # Realizamos la búsqueda con googlesearch
+    results = list(search(query, num=10, stop=10))  #no funciona, mirar.
+
+    return results
+
 
 
 # Función que muestra animación de carga mientras se realiza una búsqueda
@@ -56,4 +77,11 @@ def perform_search(query, param):
         print(result)
 
 if __name__ == "__main__":
-	banner() # delete con condicional, añadir en el siguiente push 
+    # Delete the banner
+    if not args.banner: 
+        banner()
+
+    query = build_query(args)
+    filetype = args.filetype
+
+    perform_search(query, filetype)
